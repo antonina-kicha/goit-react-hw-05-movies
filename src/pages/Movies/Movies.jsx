@@ -5,16 +5,24 @@ import { Formik , Form } from 'formik';
 import { ContainerMovies, Input, Button } from './Movies.styled';
 import { MoviesList } from 'components/MoviesList/MoviesList';
 
+import { useSearchParams } from "react-router-dom";
+
+
 export const Movies = () => {
-
-
-    const [searchQuery, setSearchQuery] = useState('');
+    
+    // const [searchQuery, setSearchQuery] = useState('');
     const [error, setError] = useState('');
     const [movies, setMovies] = useState([]);
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const searchQuery = searchParams.get("searchQuery");
+
+
+
     const handleSubmit = (value) => {
         const searchQueryTrim = value.trim();
-        setSearchQuery(searchQueryTrim); 
+        // setSearchQuery(searchQueryTrim); 
+        setSearchParams({searchQuery: searchQueryTrim})
         if (!searchQueryTrim) { setError(`Enter a search query to find the desired movie `) }
         else { setError('') };
     }
