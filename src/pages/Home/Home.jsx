@@ -1,9 +1,10 @@
-import {fetchTrendingDay} from 'api'
+
+import { fetchTrendingDay } from 'api'
 import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-export const Home = () => {
+const Home = () => {
 
   const location = useLocation();
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -35,4 +36,6 @@ export const Home = () => {
         </main>
     )
 };
+
+export default Home;
 

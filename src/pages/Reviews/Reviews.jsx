@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchReviews } from 'api';
 import { useParams } from "react-router-dom";
 
-export const Reviews = () => {
+const Reviews = () => {
 
     const { id } = useParams();
     
@@ -45,3 +45,5 @@ export const Reviews = () => {
         </div>
     );
 }
+
+export default Reviews;

@@ -3,7 +3,7 @@ import { BsArrowLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 
 
-export const BackLink = ({ to, children }) => {
+ export const BackLink = ({ to, children }) => {
   return (
     <GoBackButton to={to}>
       <BsArrowLeft size="16" />
@@ -16,4 +16,5 @@ BackLink.propTypes = {
     to: PropTypes.object,
     children: PropTypes.string,
 
-  }
+}
+  

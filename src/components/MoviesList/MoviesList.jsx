@@ -7,7 +7,6 @@ export const MoviesList = ({ movies }) => {
     const location = useLocation();
     const { searchQuery } = useParams();
 
-    console.log(searchQuery);
     return (
         <div>
             <p>{searchQuery}</p>

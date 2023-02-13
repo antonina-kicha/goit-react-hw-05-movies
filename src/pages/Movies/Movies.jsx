@@ -5,7 +5,7 @@ import { ContainerMovies, Input, Button } from './Movies.styled';
 import { MoviesList } from 'components/MoviesList/MoviesList';
 import { useSearchParams } from "react-router-dom";
 
-export const Movies = () => {
+const Movies = () => {
     
     const [error, setError] = useState('');
     const [movies, setMovies] = useState([]);
@@ -15,7 +15,7 @@ export const Movies = () => {
 
     const handleSubmit = (value) => {
         const searchQueryTrim = value.trim();
-        setSearchParams({searchQuery: searchQueryTrim})
+        setSearchParams({ searchQuery: searchQueryTrim })
         if (!searchQueryTrim) { setError(`Enter a search query to find the desired movie `) }
         else { setError('') };
     }
@@ -25,11 +25,11 @@ export const Movies = () => {
             return;
         }
         async function getMovieBySearchQuery() {
-            try { 
+            try {
                 const responce = await fetchSearchMovie(searchQuery);
                 if (responce.results.length === 0) {
-                     setError(`No movies were found by the request  "${searchQuery}"`);
-                     return;
+                    setError(`No movies were found by the request  "${searchQuery}"`);
+                    return;
                 }
                 const moviesNew = responce.results;
                 setMovies(moviesNew);
@@ -44,21 +44,23 @@ export const Movies = () => {
 
     return (
         <ContainerMovies>
-        <Formik
+            <Formik
                 initialValues={{
                     searchQueryForm: '',
                 }}
-                onSubmit={(values, {resetForm}) => {
+                onSubmit={(values, { resetForm }) => {
                     handleSubmit(values.searchQueryForm);
                     resetForm();
                 }}>
-      <Form>
-        <Input id="searchQueryForm" name="searchQueryForm"  />
-        <Button type="submit">Search</Button>
-      </Form>
+                <Form>
+                    <Input id="searchQueryForm" name="searchQueryForm" />
+                    <Button type="submit">Search</Button>
+                </Form>
             </Formik>
             {error && <p>{error}</p>}
             <MoviesList movies={movies} filter={searchQuery} />
         </ContainerMovies>
     )
-}
+};
+
+export default Movies;

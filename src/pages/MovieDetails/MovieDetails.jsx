@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { useEffect, useState } from "react";
 import { fetchMovieDetails } from 'api';
 import { ContainerMovieDetails, MoviePoster, ContainerAdditionalInfo, WrapperForPoster } from './MovieDetails.styled';
@@ -6,7 +8,7 @@ import {BackLink} from 'components/BackLink/BackLink'
 import { useParams, useLocation } from "react-router-dom";
 import { Link, Outlet } from "react-router-dom";
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
     const { id } = useParams();
     const location = useLocation();
     const backLinkHref = location.state?.from ?? "/";
@@ -78,7 +80,12 @@ export const MovieDetails = () => {
                     </li>
                 </ul>
             </ContainerAdditionalInfo>
+
+            <Suspense fallback={<div>Loading subpage...</div>}>
                 <Outlet />
+            </Suspense>
         </div>
     );
 }
+
+export default MovieDetails;
