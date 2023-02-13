@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Field } from 'formik';
 
-
 export const ContainerMovies = styled.div`
 padding: 20px 0;
 `;
@@ -14,7 +13,7 @@ font-size: 16px;
 `;
 
 export const Button = styled.button`
-    height: 33px;
-    width: 80px;`
-    ;
+height: 33px;
+width: 80px;
+`;
     

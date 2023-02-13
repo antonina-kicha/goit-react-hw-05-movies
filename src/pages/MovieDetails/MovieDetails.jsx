@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { fetchMovieDetails } from 'api';
-import {ContainerMovieDetails, MoviePoster, ContainerAdditionalInfo} from './MovieDetails.styled'
+import { ContainerMovieDetails, MoviePoster, ContainerAdditionalInfo, WrapperForPoster } from './MovieDetails.styled';
+import {BackLink} from 'components/BackLink/BackLink'
 
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Link, Outlet } from "react-router-dom";
-
 
 export const MovieDetails = () => {
     const { id } = useParams();
-    console.log(id);
+    const location = useLocation();
+    const backLinkHref = location.state?.from ?? "/";
 
     const [currentMovieInfo, setCurrentMovieInfo] = useState({});
     const [genresName, setCurrentGenresName] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     
     useEffect(() => {
         if (!id) {
@@ -19,11 +21,16 @@ export const MovieDetails = () => {
         }
         async function getMovieDetails() {
             try {
+                setIsLoading(true);
                 const responce = await fetchMovieDetails(id);
-                console.log(responce);
                 setCurrentMovieInfo(responce);
+                
                 if (responce.genres) {
                     const movieGenresArr = responce.genres;
+                    if (movieGenresArr.length === 0) {
+                        setCurrentGenresName(["No information"]);
+                        return;
+                    }
                     const genresNameArr = movieGenresArr.map(movieGenre => movieGenre.name);
                     const genresNameString = genresNameArr.join(', ')
                     setCurrentGenresName(genresNameString);
@@ -32,6 +39,9 @@ export const MovieDetails = () => {
             catch (e) {
                 console.log(e);
             }
+            finally {
+                setIsLoading(false);
+            }
         };
         getMovieDetails();
             
@@ -39,18 +49,24 @@ export const MovieDetails = () => {
 
     return (
         <div>
-            <button type="button">Go back</button>
+            <BackLink to={backLinkHref}>Go back</BackLink>
+            {isLoading && <p>LOADING.....</p>}
+
             <ContainerMovieDetails>
-                <MoviePoster src={`https://image.tmdb.org/t/p/w500${currentMovieInfo.poster_path}`} alt={currentMovieInfo.title} />
+                <WrapperForPoster>
+                    {currentMovieInfo.poster_path && !isLoading && <MoviePoster src={`https://image.tmdb.org/t/p/w500${currentMovieInfo.poster_path}`} alt={currentMovieInfo.title} />}
+                    {!currentMovieInfo.poster_path && !isLoading && <MoviePoster src="https://aeroclub-issoire.fr/wp-content/uploads/2020/05/image-not-found.jpg" alt={currentMovieInfo.title} />}
+                </WrapperForPoster>
                 <div>
-                <h1>{currentMovieInfo.title}</h1>
-                <p>User Score {`${currentMovieInfo.vote_average*10}%`}</p>
-                <h2>Overview</h2>
-                <p>{currentMovieInfo.overview}</p>
-                <h2>Genres</h2>
-                <p>{genresName}</p>
+                    <h1>{currentMovieInfo.title}</h1>
+                    <p>User Score {`${Math.round(currentMovieInfo.vote_average * 10)}%`}</p>
+                    <h2>Overview</h2>
+                    {currentMovieInfo.overview ? (<p>{currentMovieInfo.overview}</p>) : (<p>No information</p>)}
+                    <h2>Genres</h2>
+                    <p>{genresName}</p>
                 </div>
             </ContainerMovieDetails>
+
             <ContainerAdditionalInfo>
                 <h4>Additional information</h4>
                 <ul>
@@ -62,16 +78,7 @@ export const MovieDetails = () => {
                     </li>
                 </ul>
             </ContainerAdditionalInfo>
-
                 <Outlet />
-
-            
-
-          
-
-
         </div>
-
     );
-
 }

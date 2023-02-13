@@ -7,6 +7,11 @@ padding: 10px 0;
 border-bottom: 1px solid grey;
 `;
 
+export const WrapperForPoster = styled.div`
+  height: 460px;
+    width: 300px;
+    `;
+
 export const MoviePoster = styled.img`
     height: 460px;
     width: 300px;
@@ -16,3 +21,5 @@ export const MoviePoster = styled.img`
 export const ContainerAdditionalInfo = styled.div`
 border-bottom: 1px solid grey;
 `;
+
+

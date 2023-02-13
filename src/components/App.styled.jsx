@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
-
 export const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
@@ -19,7 +18,6 @@ display: flex;
     font-size: 20px;
       text-decoration: none;
 `;
-
 
 export const Link = styled(NavLink)`
   padding: 8px 16px;
